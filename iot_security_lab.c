@@ -10,13 +10,15 @@ int main() {
     // Inicializa todas as interfaces de I/O padrão (USB serial, etc.)
     stdio_init_all();
     
+    sleep_ms(5000);
+
     // Conecta à rede WiFi
     // Parâmetros: Nome da rede (SSID) e senha
-    connect_to_wifi("SSID da rede", "Senha da rede");
+    connect_to_wifi("HSC", "humbertosc744");
 
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
-    mqtt_setup("bitdog1", "IP do broker", "aluno", "senha123");
+    mqtt_setup("bitdog1", "192.168.31.70", "bitdogExp", "nha123");
 
     // Mensagem original a ser enviada
     const char *mensagem = "26.5";
