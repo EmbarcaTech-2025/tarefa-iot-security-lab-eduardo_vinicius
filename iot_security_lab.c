@@ -18,7 +18,7 @@ int main() {
 
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
-    mqtt_setup("bitdog1", "192.168.31.70", "bitdogExp", "nha123");
+    mqtt_setup("bitdog1", "192.168.31.70", "bitdogExp", "Senha123");
 
     // Mensagem original a ser enviada
     const char *mensagem = "26.5";
