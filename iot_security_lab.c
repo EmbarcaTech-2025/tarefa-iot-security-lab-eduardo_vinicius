@@ -14,11 +14,11 @@ int main() {
 
     // Conecta à rede WiFi
     // Parâmetros: Nome da rede (SSID) e senha
-    connect_to_wifi("HSC", "humbertosc744");
+    connect_to_wifi("HBR Guest", "Visit@8523");
 
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
-    mqtt_setup("bitdog1", "192.168.31.70", "bitdogExp", "Senha123");
+    mqtt_setup("bitdog1", "192.168.5.171", "bitdogExp", "Senha123");
 
     // Mensagem original a ser enviada
     const char *mensagem = "26.5";
