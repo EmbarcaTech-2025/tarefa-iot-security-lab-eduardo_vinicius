@@ -95,3 +95,44 @@ void mqtt_comm_publish(const char *topic, const uint8_t *data, size_t len) {
         printf("mqtt_publish falhou ao ser enviada: %d\n", status);
     }
 }
+
+/* Callback de chegada de mensagens */
+void mqtt_incoming_publish_cb(void *arg, const char *topic, u32_t tot_len) {
+    printf("Mensagem recebida no tópico: %s, tamanho: %u bytes\n", topic, tot_len);
+}
+
+/* Callback para processar os dados da mensagem recebida */
+void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t flags) {
+    printf("Payload recebido (%u bytes): %.*s\n", len, len, data);
+}
+
+/* Callback de confirmação do subscribe */
+void mqtt_sub_request_cb(void *arg, err_t result) {
+    if (result == ERR_OK) {
+        printf("Subscribe realizado com sucesso.\n");
+    } else {
+        printf("Erro ao realizar subscribe: %d\n", result);
+    }
+}
+
+/* Função para se inscrever em um tópico MQTT
+ * Parâmetros:
+ *   - topic: nome do tópico (ex: "sensor/temperatura")
+ */
+void mqtt_comm_subscribe(const char *topic) {
+    // Define os callbacks de mensagem
+    mqtt_set_inpub_callback(client, mqtt_incoming_publish_cb, mqtt_incoming_data_cb, NULL);
+
+    // Realiza a inscrição no tópico
+    err_t status = mqtt_subscribe(
+        client,               // Instância do cliente
+        topic,                // Tópico para se inscrever
+        0,                    // QoS 0
+        mqtt_sub_request_cb,  // Callback de confirmação
+        NULL                  // Argumento para o callback
+    );
+
+    if (status != ERR_OK) {
+        printf("mqtt_subscribe falhou: %d\n", status);
+    }
+}
