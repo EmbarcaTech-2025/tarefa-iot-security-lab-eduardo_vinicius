@@ -6,7 +6,8 @@
 #include "include/mqtt_comm.h"      // Funções personalizadas para MQTT
 #include "include/xor_cipher.h"     // Funções de cifra XOR
 
-#define PUB_SUB 1 // 1 - Subscriber 2 - Publisher
+#define PUB_SUB 0 // 1 - Subscriber 0 - Publisher
+#define BROKER_IP "192.168.82.123"
 
 int main() {
     // Inicializa todas as interfaces de I/O padrão (USB serial, etc.)
@@ -20,10 +21,13 @@ int main() {
 
     // Configura o cliente MQTT
     // Parâmetros: ID do cliente, IP do broker, usuário, senha
-    mqtt_setup("bitdog2", "192.168.82.123", "bitdog2", "Senha1234");
+    if(PUB_SUB == 1)
+    mqtt_setup("bitdog2", BROKER_IP, "bitdog2", "Senha1234");
+    else
+    mqtt_setup("bitdog", BROKER_IP, "bitdogExp", "Senha123");
 
     // Mensagem original a ser enviada
-    const char *mensagem = "50";
+    const char *mensagem = "ola tudo bem?";
     // Buffer para mensagem criptografada (16 bytes)
     uint8_t criptografada[16];
     // Criptografa a mensagem usando XOR com chave 42
@@ -37,7 +41,7 @@ int main() {
 
         if(PUB_SUB == 0)
         // Publica a mensagem original (não criptografada)
-        mqtt_comm_publish("escola/sala1/temperatura", mensagem, strlen(mensagem));
+        mqtt_comm_publish("escola/sala1/temperatura", criptografada, strlen(criptografada));
         
         // Alternativa: Publica a mensagem criptografada (atualmente comentada)
         // mqtt_comm_publish("escola/sala1/temperatura", criptografada, strlen(mensagem));

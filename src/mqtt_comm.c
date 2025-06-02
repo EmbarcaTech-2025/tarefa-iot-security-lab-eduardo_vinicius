@@ -2,6 +2,7 @@
 #include "include/mqtt_comm.h"    // Header file com as declarações locais
 // Base: https://github.com/BitDogLab/BitDogLab-C/blob/main/wifi_button_and_led/lwipopts.h
 #include "lwipopts.h"             // Configurações customizadas do lwIP
+#include "include/xor_cipher.h"
 
 /* Variável global estática para armazenar a instância do cliente MQTT
  * 'static' limita o escopo deste arquivo */
@@ -103,7 +104,9 @@ void mqtt_incoming_publish_cb(void *arg, const char *topic, u32_t tot_len) {
 
 /* Callback para processar os dados da mensagem recebida */
 void mqtt_incoming_data_cb(void *arg, const u8_t *data, u16_t len, u8_t flags) {
-    printf("Payload recebido (%u bytes): %.*s\n", len, len, data);
+    uint8_t descriptografada[16];
+    xor_encrypt((uint8_t *)data, descriptografada, len, 42);
+    printf("Payload recebido (%u bytes): %.*s\n", len, len, descriptografada);
 }
 
 /* Callback de confirmação do subscribe */
